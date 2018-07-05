@@ -73,14 +73,14 @@ namespace Karakoram.Address.Lookup.API.Contracts
                     {
                         TenantId = 3,
                         Preference = ServiceType.SmartyStreets,
-                        AuthToken = "9877-1254-5323-6423",
-                        AuthId = "asga3t3sdgs3dgs"
+                        //AuthToken = "9877-1254-5323-6423",
+                        //AuthId = "asga3t3sdgs3dgs"
                     },
                     new TenantConfiguration
                     {
                         TenantId = 4,
                         Preference = ServiceType.PostCoder,
-                        APIKEY = "0987-6543-2109-8765"
+                        //APIKEY = "0987-6543-2109-8765"
                     }
                 };
 

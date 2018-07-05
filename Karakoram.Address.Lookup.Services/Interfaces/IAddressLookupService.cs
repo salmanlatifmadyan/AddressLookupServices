@@ -8,7 +8,7 @@ namespace Karakoram.Address.Lookup.Services.Interfaces
     {
         void Initialise(Dictionary<string, string> intialisationData);
 
-        Task<LoqateFindResult> Find();
+        Task<List<LoqateFindResult>> Find();
 
         Task<LoqateRetrieveResult> Retrive();
     }

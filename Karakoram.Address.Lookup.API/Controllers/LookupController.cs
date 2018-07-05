@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Karakoram.Address.Lookup.API.Contracts;
+using Karakoram.Address.Lookup.API.Models.Enums;
 using Karakoram.Address.Lookup.Services.Interfaces;
 using Karakoram.Address.Lookup.Services.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -51,37 +52,79 @@ namespace Karakoram.Address.Lookup.API.Controllers
         /// <param name="tenant"></param>
         /// <param name="countryCode"></param>
         /// <param name="query"></param>
+        /// <param name="container"></param>
+        /// <param name="limit"></param>
+        /// <param name="language"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("Find")]
         [ResponseCache(CacheProfileName = "Default")]
-        public async Task<IActionResult> Find(int tenantId, string countryCode, string query)
+        public async Task<IActionResult> Find(int tenantId, string countryCode, string query, string container, string language, int limit = 50)
         {            
             try
             {
-                var result = new LoqateFindResult();
+                var result = new List<LoqateFindResult>();
 
-                var cacheKey = "Find_" + tenantId + "_" + countryCode + "_" + query;
+                #region Cache Key
+
+                var cacheKey = "Find_" + tenantId;
+
+                if (!string.IsNullOrEmpty(countryCode))
+                {
+                    cacheKey += "_" + countryCode;
+                }
+                if (!string.IsNullOrEmpty(query))
+                {
+                    cacheKey += "_" + query;
+                }
+                if (!string.IsNullOrEmpty(container))
+                {
+                    cacheKey += "_" + container;
+                }
+                if (!string.IsNullOrEmpty(language))
+                {
+                    cacheKey += "_" + language;
+                }
+                if (limit > 0)
+                {
+                    cacheKey += "_" + limit;
+                }
+
+                #endregion
 
                 // Look for cache key.
                 if (!_cache.TryGetValue(cacheKey, out result))
                 {
                     // Key not in cache, so get data.
                     var tenantConfig = Common.GetTenantConfiguration(tenantId);
-                    var lookupService = Common.GetLookupService(tenantConfig.Preference);
+                    var lookupService = Common.GetLookupService(tenantConfig?.Preference ?? ServiceType.Default);
 
                     #region Dictionary
 
                     var dict = new Dictionary<string, string>();
 
-                    if (!string.IsNullOrEmpty(tenantConfig.APIKEY))
+                    dict.Add("countries", countryCode);
+                    dict.Add("text", query);
+
+                    if (tenantConfig != null && !string.IsNullOrEmpty(tenantConfig.APIKEY))
                     {
                         dict.Add("key", tenantConfig.APIKEY);
                     }
 
-                    dict.Add("limit", "10");
-                    dict.Add("countries", countryCode);
-                    dict.Add("text", query);
+                    if (!string.IsNullOrEmpty(container))
+                    {
+                        dict.Add("container", container);
+                    }
+
+                    if (limit > 0)
+                    {
+                        dict.Add("limit", limit.ToString());
+                    }
+
+                    if (!string.IsNullOrEmpty(language))
+                    {
+                        dict.Add("language", language);
+                    }
 
                     #endregion
 
@@ -140,13 +183,13 @@ namespace Karakoram.Address.Lookup.API.Controllers
                 {
                     // Key not in cache, so get data.
                     var tenantConfig = Common.GetTenantConfiguration(tenantId);
-                    var lookupService = Common.GetLookupService(tenantConfig.Preference);
+                    var lookupService = Common.GetLookupService(tenantConfig?.Preference ?? ServiceType.Default);
 
                     #region Dictionary
 
                     var dict = new Dictionary<string, string>();
 
-                    if (!string.IsNullOrEmpty(tenantConfig.APIKEY))
+                    if (tenantConfig != null && !string.IsNullOrEmpty(tenantConfig.APIKEY))
                     {
                         dict.Add("key", tenantConfig.APIKEY);
                     }

@@ -22,7 +22,7 @@ namespace Karakoram.Address.Lookup.Services.LookupServices
         string container = "";
         string origin = "";
         string countries = "";
-        int limit = 10; // default = 10
+        int limit = 50; // default = 50
         string language = "en"; // default = en;
 
         string field1format = "";
@@ -96,7 +96,7 @@ namespace Karakoram.Address.Lookup.Services.LookupServices
         /// Find Method for the Loqate Service
         /// </summary>
         /// <returns></returns>
-        public Task<LoqateFindResult> Find()
+        public Task<List<LoqateFindResult>> Find()
         {
             //Build the url
             var url = "https://api.addressy.com/Capture/Interactive/Find/v1.00/dataset.ws?";
@@ -116,17 +116,22 @@ namespace Karakoram.Address.Lookup.Services.LookupServices
             if (dataSet.Tables.Count == 1 && dataSet.Tables[0].Columns.Count == 4 && dataSet.Tables[0].Columns[0].ColumnName == "Error")
                 throw new Exception(dataSet.Tables[0].Rows[0].ItemArray[1].ToString());
 
-            var result = new LoqateFindResult
+            var results = new List<LoqateFindResult>();
+
+            for(var i = 0; i < dataSet.Tables[0].Rows.Count; i++)
             {
-                Id = Convert.ToString(dataSet.Tables[0].Rows[0]["id"]),
-                Type = Convert.ToString(dataSet.Tables[0].Rows[0]["type"]),
-                Text = Convert.ToString(dataSet.Tables[0].Rows[0]["text"]),
-                Highlight = Convert.ToString(dataSet.Tables[0].Rows[0]["highlight"]),
-                Description = Convert.ToString(dataSet.Tables[0].Rows[0]["description"])
-            };
+                results.Add(new LoqateFindResult
+                {
+                    Id = Convert.ToString(dataSet.Tables[0].Rows[i]["id"]),
+                    Type = Convert.ToString(dataSet.Tables[0].Rows[i]["type"]),
+                    Text = Convert.ToString(dataSet.Tables[0].Rows[i]["text"]),
+                    Highlight = Convert.ToString(dataSet.Tables[0].Rows[i]["highlight"]),
+                    Description = Convert.ToString(dataSet.Tables[0].Rows[i]["description"])
+                });
+            }
             
             //Return the dataset
-            return Task.FromResult(result);
+            return Task.FromResult(results);
 
             //FYI: The dataset contains the following columns:
             //Id
