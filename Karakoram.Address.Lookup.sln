@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Karakoram.Address.Lookup.API", "Karakoram.Address.Lookup.API\Karakoram.Address.Lookup.API.csproj", "{CBA7D026-6AD7-412A-A47F-688CF07914D3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Karakoram.Address.Lookup.Services", "Karakoram.Address.Lookup.Services\Karakoram.Address.Lookup.Services.csproj", "{997680EB-FA55-4212-96B1-4A7977DE5BBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBA7D026-6AD7-412A-A47F-688CF07914D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA7D026-6AD7-412A-A47F-688CF07914D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA7D026-6AD7-412A-A47F-688CF07914D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA7D026-6AD7-412A-A47F-688CF07914D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{997680EB-FA55-4212-96B1-4A7977DE5BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{997680EB-FA55-4212-96B1-4A7977DE5BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{997680EB-FA55-4212-96B1-4A7977DE5BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{997680EB-FA55-4212-96B1-4A7977DE5BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CB5FE92-A431-4444-B3F2-8A7D42AC9F2D}
+	EndGlobalSection
+EndGlobal
