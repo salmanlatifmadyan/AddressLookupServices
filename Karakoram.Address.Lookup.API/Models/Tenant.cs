@@ -8,5 +8,7 @@ namespace Karakoram.Address.Lookup.API.Models
         public string Name { get; set; }
 
         public string Phone { get; set; }
+
+        public TenantConfiguration Config { get; set; }
     }
 }

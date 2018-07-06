@@ -96,8 +96,13 @@ namespace Karakoram.Address.Lookup.API.Controllers
                 if (!_cache.TryGetValue(cacheKey, out result))
                 {
                     // Key not in cache, so get data.
-                    var tenantConfig = Common.GetTenantConfiguration(tenantId);
-                    var lookupService = Common.GetLookupService(tenantConfig?.Preference ?? ServiceType.Default);
+                    var tenantWithConfig = Common.GetTenantWithConfiguration(tenantId);
+                    if(tenantWithConfig == null)
+                    {
+                        throw new Exception("Tenant not found");
+                    }
+
+                    var lookupService = Common.GetLookupService(tenantWithConfig.Config?.Preference ?? ServiceType.Default);
 
                     #region Dictionary
 
@@ -106,9 +111,9 @@ namespace Karakoram.Address.Lookup.API.Controllers
                     dict.Add("countries", countryCode);
                     dict.Add("text", query);
 
-                    if (tenantConfig != null && !string.IsNullOrEmpty(tenantConfig.APIKEY))
+                    if (tenantWithConfig != null && !string.IsNullOrEmpty(tenantWithConfig.Config?.APIKEY))
                     {
-                        dict.Add("key", tenantConfig.APIKEY);
+                        dict.Add("key", tenantWithConfig.Config?.APIKEY);
                     }
 
                     if (!string.IsNullOrEmpty(container))
@@ -182,16 +187,21 @@ namespace Karakoram.Address.Lookup.API.Controllers
                 if (!_cache.TryGetValue(cacheKey, out result))
                 {
                     // Key not in cache, so get data.
-                    var tenantConfig = Common.GetTenantConfiguration(tenantId);
-                    var lookupService = Common.GetLookupService(tenantConfig?.Preference ?? ServiceType.Default);
+                    var tenantWithConfig = Common.GetTenantWithConfiguration(tenantId);
+                    if (tenantWithConfig == null)
+                    {
+                        throw new Exception("Tenant not found");
+                    }
+
+                    var lookupService = Common.GetLookupService(tenantWithConfig.Config?.Preference ?? ServiceType.Default);
 
                     #region Dictionary
 
                     var dict = new Dictionary<string, string>();
 
-                    if (tenantConfig != null && !string.IsNullOrEmpty(tenantConfig.APIKEY))
+                    if (tenantWithConfig != null && !string.IsNullOrEmpty(tenantWithConfig.Config?.APIKEY))
                     {
-                        dict.Add("key", tenantConfig.APIKEY);
+                        dict.Add("key", tenantWithConfig.Config?.APIKEY);
                     }
 
                     dict.Add("limit", "10");

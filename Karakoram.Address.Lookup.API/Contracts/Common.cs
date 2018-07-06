@@ -13,34 +13,58 @@ namespace Karakoram.Address.Lookup.API.Contracts
         /// </summary>
         /// <param name="tenantId"></param>
         /// <returns></returns>
-        public static TenantConfiguration GetTenantConfiguration(int tenantId)
+        public static Tenant GetTenantWithConfiguration(int tenantId)
         {
-            // creating dummy tenants data
+            // creating dummy tenants data along with configuration
             var tenantsList = new List<Tenant>
             {
                 new Tenant
                 {
                     TenantId = 1,
                     Name = "Tenant 1",
-                    Phone = "123"
+                    Phone = "123",
+                    Config = new TenantConfiguration
+                    {
+                        TenantId = 1,
+                        Preference = ServiceType.Loqate,
+                        //APIKEY = "1234-5678-9012-3456"
+                    }
                 },
                 new Tenant
                 {
                     TenantId = 2,
                     Name = "Tenant 2",
-                    Phone = "456"
+                    Phone = "456",
+                    Config = new TenantConfiguration
+                    {
+                        TenantId = 2,
+                        Preference = ServiceType.CraftyClicks
+                    }
                 },
                 new Tenant
                 {
                     TenantId = 3,
                     Name = "Tenant 3",
-                    Phone = "789"
+                    Phone = "789",
+                    Config = new TenantConfiguration
+                    {
+                        TenantId = 3,
+                        Preference = ServiceType.SmartyStreets,
+                        //AuthToken = "9877-1254-5323-6423",
+                        //AuthId = "asga3t3sdgs3dgs"
+                    }
                 },
                 new Tenant
                 {
                     TenantId = 4,
                     Name = "Tenant 4",
-                    Phone = "147"
+                    Phone = "147",
+                    Config = new TenantConfiguration
+                    {
+                        TenantId = 4,
+                        Preference = ServiceType.PostCoder,
+                        //APIKEY = "0987-6543-2109-8765"
+                    }
                 },
                 new Tenant
                 {
@@ -53,44 +77,7 @@ namespace Karakoram.Address.Lookup.API.Contracts
             // finding the the tenant
             var findTenant = tenantsList.FirstOrDefault(a => a.TenantId == tenantId);
 
-            if (findTenant != null)
-            {
-                // creating dummy tenant configurations data
-                var tenantConfigurationsList = new List<TenantConfiguration>
-                {
-                    new TenantConfiguration
-                    {
-                        TenantId = 1,
-                        Preference = ServiceType.Loqate,
-                        //APIKEY = "1234-5678-9012-3456"
-                    },
-                    new TenantConfiguration
-                    {
-                        TenantId = 2,
-                        Preference = ServiceType.CraftyClicks
-                    },
-                    new TenantConfiguration
-                    {
-                        TenantId = 3,
-                        Preference = ServiceType.SmartyStreets,
-                        //AuthToken = "9877-1254-5323-6423",
-                        //AuthId = "asga3t3sdgs3dgs"
-                    },
-                    new TenantConfiguration
-                    {
-                        TenantId = 4,
-                        Preference = ServiceType.PostCoder,
-                        //APIKEY = "0987-6543-2109-8765"
-                    }
-                };
-
-                // finding the the tenant configuration
-                return tenantConfigurationsList.FirstOrDefault(a => a.TenantId == tenantId);
-            }
-            else
-            {
-                return null;
-            }
+            return findTenant;
         }
 
         /// <summary>
