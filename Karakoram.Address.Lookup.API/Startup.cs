@@ -71,6 +71,8 @@ namespace Karakoram.Address.Lookup.API
 
             app.UseClientRateLimiting();
 
+            app.UseStatusCodePages();
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }

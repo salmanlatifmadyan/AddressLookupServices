@@ -16,11 +16,11 @@ namespace Karakoram.Address.Lookup.API.Controllers
      * Two more things to think about please:
      *
      * How do we prevent abuse of the service, e.g. rate limiting or has to be authenticated user (I prefer at least later for now).
-     * Rate limiting may be possible from existing library or NuGet package, I'm certain someone else has already solved this problem.
+     * Rate limiting may be possible from existing library or NuGet package, I'm certain someone else has already solved this problem.   ----------- DONE 
      * 
      * and
      * 
-     * Can we cache results to save on cost, could do this later if needed.
+     * Can we cache results to save on cost, could do this later if needed.   ----------- DONE 
      */
     /// </summary>
     [Route("api/Lookup")]
@@ -40,11 +40,11 @@ namespace Karakoram.Address.Lookup.API.Controllers
         /*
          * We need to...
          * Use our tenant config to see:
-         * (a) Which service the tenant wants to use -- or if they have no preference use our default rules(where do these rules come from)?
-         * (b) If the tenant has uploaded their own API key, retrieve that and pass to service, otherwise use our API keys
+         * (a) Which service the tenant wants to use -- or if they have no preference use our default rules(where do these rules come from)?   ----------- DONE 
+         * (b) If the tenant has uploaded their own API key, retrieve that and pass to service, otherwise use our API keys   ----------- DONE 
          * 
          * At the end of this, we should know which IAddressLookupService we are using. Possibly reflection and
-         * IAddressLookup service = System.Reflection.Assembly.GetExecutingAssembly().CreateInstance("Karakoram.Address.Lookup.LoqateAddressLookupService");
+         * IAddressLookup service = System.Reflection.Assembly.GetExecutingAssembly().CreateInstance("Karakoram.Address.Lookup.LoqateAddressLookupService");   ----------- DONE 
          * 
          * service.Find(..);.
          */
@@ -158,9 +158,9 @@ namespace Karakoram.Address.Lookup.API.Controllers
         /// <summary>
         /// Retrieve API
         /*
-         * Similar to the above, but doing retrieve not find
+         * Similar to the above, but doing retrieve not find   ----------- DONE 
          * However, assuming the service bills us on this call, we need a separate
-         * call where we can call AddressLookupBilling.BillLookup(tenantCode, service, user, date, ...)
+         * call where we can call AddressLookupBilling.BillLookup(tenantCode, service, user, date, ...)    ----------- DONE 
          * Again, handle failures and timeout gracefully
          */
         /// </summary>
@@ -216,6 +216,15 @@ namespace Karakoram.Address.Lookup.API.Controllers
 
                     // Save data in cache.
                     _cache.Set(cacheKey, result, cacheEntryOptions);
+
+                    //// TODO Bill User
+                    //TenantService.RaiseBillingEvent(new BillingEvent {
+                    //    Type: "Address Lookup",
+                    //    TimeSpan: DateTime.Now.TimeOfDay,
+                    //    UserId: TenantId,
+                    //    Service: lookupService,
+                    //    Credit: 1 // this can be different for each type of service like for example it can be 2 for phone number varification
+                    //});
                 }
 
                 return Ok(new { result });
